@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using RotaryHeart.Lib.SerializableDictionary;
+﻿using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
@@ -23,13 +20,30 @@ public class GridManager : MonoBehaviour
         CreateGrid();
     }
 
+    #region Controls
+    public bool isOnTheGrid(Vector2Int gridPos)
+    {
+        if (gridPos.x >= 0 && gridPos.x < widthAndWeight && gridPos.y >= 0 && gridPos.y < widthAndWeight)
+            return true;
+        else
+            return false;
+    }
+
+    public void ActivateGridCell(Vector2Int gridPos)
+    {
+        grid[gridPos.x, gridPos.y].GetComponent<GridCell>().FillCell();
+    }
+
+
+    #endregion
+
+    #region Grid General
+
     public void RebuildGrid(int _size)
     {
         widthAndWeight = _size;
         CreateGrid();
     }
-
-    #region Grid General
     private void CreateGrid()
     {
         grid = new GameObject[widthAndWeight, widthAndWeight];
@@ -57,18 +71,18 @@ public class GridManager : MonoBehaviour
         int x = Mathf.FloorToInt(worldPos.x / cellSize);
         int y = Mathf.FloorToInt(worldPos.z / cellSize);
 
-        x = Mathf.Clamp(x, 0, widthAndWeight - 1);
-        y = Mathf.Clamp(y, 0, widthAndWeight - 1);
-
         return new Vector2Int(x, y);
     }
 
-    public Vector3 GetWorldPosFromGridPos(Vector2Int gridPos)
+    public Vector3 GetWorldPosFromGridPos(Vector2Int gridPos, bool isMiddle)
     {
         float x = gridPos.x * cellSize;
         float z = gridPos.y * cellSize;
 
-        return new Vector3(x, 0, z);
+        if (isMiddle)
+            return new Vector3(x + cellSize / 2, 0, z + cellSize / 2);
+        else
+            return new Vector3(x, 0, z);
     }
     #endregion
 

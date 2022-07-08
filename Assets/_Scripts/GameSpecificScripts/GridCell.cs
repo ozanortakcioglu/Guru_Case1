@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 public class GridCell : MonoBehaviour
 {
-
     public SpriteRenderer cellSprite;
     public SpriteRenderer xSprite;
 
@@ -14,19 +11,43 @@ public class GridCell : MonoBehaviour
 
     private int posX;
     private int posY;
+    private Vector3 initXScale;
+    private Color initXColor;
+
+    private void Start()
+    {
+        initXColor = xSprite.color;
+        initXScale = xSprite.transform.localScale;
+    }
 
     public void FillCell()
     {
         if (isFull)
             return;
         isFull = true;
-        //some anims
+
+        // Tween Anims
+        xSprite.transform.DOKill();
+
+        xSprite.transform.localScale = Vector3.zero;
+        xSprite.color = Color.white;
+        xSprite.gameObject.SetActive(true);
+
+        xSprite.transform.DOScale(initXScale, 0.2f).SetEase(Ease.OutBack);
+        xSprite.DOColor(initXColor, 0.2f).SetEase(Ease.InOutSine);
     }
 
     public void ResetCell()
     {
         isFull = false;
-        //some anims
+
+        // Tween Anims
+        xSprite.transform.DOKill();
+
+        xSprite.transform.DOScale(0, 0.2f).SetEase(Ease.InBack).OnComplete(() => 
+        {
+            xSprite.gameObject.SetActive(false);
+        });
     }
 
     public void SetPosition(int x, int y)
