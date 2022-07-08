@@ -29,6 +29,8 @@ public class Controller : MonoBehaviour
                 var gridPos = gridManager.GetGridPosFromWorld(worldPos);
                 if (gridManager.isOnTheGrid(gridPos))
                 {
+                    Taptic.Light();
+                    SoundManager.Instance.PlaySound(SoundTrigger.Click);
                     gridManager.ActivateGridCell(gridPos);
                 }
                 else
@@ -54,7 +56,7 @@ public class Controller : MonoBehaviour
         return results.Count > 0;
     }
 
-    private Vector3 screenToGroundPoint(Vector3 screenPos)
+    private Vector3 screenToGroundPoint(Vector3 screenPos) //for rotated camera
     {
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.ScreenPointToRay(screenPos), out hit, 1000f, groundMask))

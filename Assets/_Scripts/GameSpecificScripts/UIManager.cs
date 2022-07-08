@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        scoreText.text = "" + score;
+        scoreText.text = "Score: " + score;
 
         rebuildButton.onClick.AddListener(() =>
         {
@@ -51,13 +51,16 @@ public class UIManager : MonoBehaviour
 
             gridSizeInputField.text = "";
             score = 0;
-            scoreText.text = "" + score;
+            scoreText.text = "Score: " + score;
+
+            Taptic.Light();
+            SoundManager.Instance.PlaySound(SoundTrigger.Click);
         });
     }
 
     public void IncreaseScoreCount(int _addition)
     {
         score += _addition;
-        scoreText.text = "" + score;
+        scoreText.text = "Score: " + score;
     }
 }

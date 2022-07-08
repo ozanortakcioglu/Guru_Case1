@@ -62,6 +62,10 @@ public class GridManager : MonoBehaviour
         if(connectedCells.Count > 2)
         {
             UIManager.Instance.IncreaseScoreCount(connectedCells.Count);
+            Taptic.Heavy();
+            SoundManager.Instance.PlaySound(SoundTrigger.Score);
+            EffectsManager.Instance.PlayEffect(EffectTrigger.Score, GetWorldPosFromGridPos(lastActivatedGridPos, true) + Vector3.up, Vector3.zero, Vector3.one * 0.5f, null);
+
 
             foreach (var item in connectedCells)
             {
