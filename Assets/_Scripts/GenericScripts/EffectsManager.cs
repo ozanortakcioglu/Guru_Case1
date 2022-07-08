@@ -13,9 +13,9 @@ public class Effects : SerializableDictionaryBase<EffectTrigger, GameObject> { }
 
 public class EffectsManager : MonoBehaviour
 {
-    public Effects effects;
-
     public static EffectsManager Instance;
+
+    public Effects effects;
 
 
     private void Awake()

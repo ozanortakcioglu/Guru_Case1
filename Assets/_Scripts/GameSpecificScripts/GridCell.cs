@@ -32,11 +32,9 @@ public class GridCell : MonoBehaviour
         xSprite.transform.DOKill();
 
         xSprite.transform.localScale = Vector3.zero;
-        xSprite.color = Color.white;
         xSprite.gameObject.SetActive(true);
 
         xSprite.transform.DOScale(initXScale, 0.2f).SetEase(Ease.OutBack);
-        xSprite.DOColor(initXColor, 0.2f).SetEase(Ease.InOutSine);
     }
 
     public void ResetCell()
@@ -54,6 +52,7 @@ public class GridCell : MonoBehaviour
         xSprite.transform.DOKill();
         xSprite.transform.DOScale(0, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
         {
+
             xSprite.gameObject.SetActive(false);
         });
     }

@@ -4,28 +4,23 @@ using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
-    public static GridManager Instance;
     public GameObject gridCellPrefab;
+    public Transform parentForCells;
+    public int size;
 
-    public int widthAndWeight;
     private float cellSize = 1;
-
     private GameObject[,] grid;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
         CreateGrid();
+        UIManager.onRebuildButtonClick += RebuildGrid;
     }
 
     #region Controls
     public bool isOnTheGrid(Vector2Int gridPos)
     {
-        if (gridPos.x >= 0 && gridPos.x < widthAndWeight && gridPos.y >= 0 && gridPos.y < widthAndWeight)
+        if (gridPos.x >= 0 && gridPos.x < size && gridPos.y >= 0 && gridPos.y < size)
             return true;
         else
             return false;
@@ -66,10 +61,11 @@ public class GridManager : MonoBehaviour
 
         if(connectedCells.Count > 2)
         {
+            UIManager.Instance.IncreaseScoreCount(connectedCells.Count);
+
             foreach (var item in connectedCells)
             {
                 GetGridCell(item).ResetCell();
-                //Increase score
             }
         }
     }
@@ -79,7 +75,7 @@ public class GridManager : MonoBehaviour
         List<Vector2Int> fullNeighbors = new List<Vector2Int>();
         
 
-        if (gridPos.y + 1 < widthAndWeight)
+        if (gridPos.y + 1 < size)
         {
             var cell = GetGridCell(gridPos + new Vector2Int(0, 1));
             if (cell.isFull)
@@ -93,7 +89,7 @@ public class GridManager : MonoBehaviour
                 fullNeighbors.Add(cell.GetPosition());
         }
 
-        if (gridPos.x + 1 < widthAndWeight)
+        if (gridPos.x + 1 < size)
         {
             var cell = GetGridCell(gridPos + new Vector2Int(1, 0));
             if (cell.isFull)
@@ -117,22 +113,35 @@ public class GridManager : MonoBehaviour
 
     public void RebuildGrid(int _size)
     {
-        widthAndWeight = _size;
+        DeleteGrid();
+        size = _size;     
         CreateGrid();
     }
+
     private void CreateGrid()
     {
-        grid = new GameObject[widthAndWeight, widthAndWeight];
+        grid = new GameObject[size, size];
 
-        for (int y = 0; y < widthAndWeight; y++)
+        for (int y = 0; y < size; y++)
         {
-            for (int x = 0; x < widthAndWeight; x++)
+            for (int x = 0; x < size; x++)
             {
                 grid[x, y] = Instantiate(gridCellPrefab, new Vector3(x * cellSize, 0.01f, y * cellSize), Quaternion.identity);
                 grid[x, y].GetComponent<GridCell>().SetPosition(x, y);
                 grid[x, y].GetComponent<GridCell>().isFull = false;
-                grid[x, y].transform.parent = transform;
+                grid[x, y].transform.parent = parentForCells;
                 grid[x, y].gameObject.name = "GridCell (X: " + x + ", Y: " + y + ")";
+            }
+        }
+    }
+
+    private void DeleteGrid()
+    {
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                Destroy(grid[x, y]);
             }
         }
     }
