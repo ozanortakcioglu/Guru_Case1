@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+
 
 public class GridManager : MonoBehaviour
 {
@@ -31,7 +33,81 @@ public class GridManager : MonoBehaviour
 
     public void ActivateGridCell(Vector2Int gridPos)
     {
-        grid[gridPos.x, gridPos.y].GetComponent<GridCell>().FillCell();
+        GetGridCell(gridPos).GetComponent<GridCell>().FillCell();
+        CheckAndDeactivateCells(gridPos);
+    }
+
+    private void CheckAndDeactivateCells(Vector2Int lastActivatedGridPos)
+    {
+        List<Vector2Int> connectedCells = new List<Vector2Int>();
+        connectedCells.Add(lastActivatedGridPos);
+
+        while (true)
+        {
+            var initCount = connectedCells.Count;
+            List<Vector2Int> newOnes = new List<Vector2Int>();
+
+            foreach (var connected in connectedCells)
+            {
+                foreach (var neighbor in getFullNeighbors(connected))
+                {
+                    if (!connectedCells.Contains(neighbor) && !newOnes.Contains(neighbor))
+                    {
+                        newOnes.Add(neighbor);
+                    }
+                }
+            }
+
+            connectedCells.AddRange(newOnes);
+
+            if (initCount == connectedCells.Count)
+                break;
+        }
+
+        if(connectedCells.Count > 2)
+        {
+            foreach (var item in connectedCells)
+            {
+                GetGridCell(item).ResetCell();
+                //Increase score
+            }
+        }
+    }
+
+    private List<Vector2Int> getFullNeighbors(Vector2Int gridPos)
+    {
+        List<Vector2Int> fullNeighbors = new List<Vector2Int>();
+        
+
+        if (gridPos.y + 1 < widthAndWeight)
+        {
+            var cell = GetGridCell(gridPos + new Vector2Int(0, 1));
+            if (cell.isFull)
+                fullNeighbors.Add(cell.GetPosition());
+        }
+
+        if (gridPos.y - 1 >= 0)
+        {
+            var cell = GetGridCell(gridPos + new Vector2Int(0, -1));
+            if (cell.isFull)
+                fullNeighbors.Add(cell.GetPosition());
+        }
+
+        if (gridPos.x + 1 < widthAndWeight)
+        {
+            var cell = GetGridCell(gridPos + new Vector2Int(1, 0));
+            if (cell.isFull)
+                fullNeighbors.Add(cell.GetPosition());
+        }
+
+        if (gridPos.x - 1 >= 0)
+        {
+            var cell = GetGridCell(gridPos + new Vector2Int(-1, 0));
+            if (cell.isFull)
+                fullNeighbors.Add(cell.GetPosition());
+        }
+
+        return fullNeighbors;
     }
 
 

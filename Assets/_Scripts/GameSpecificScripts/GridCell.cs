@@ -1,5 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GridCell : MonoBehaviour
 {
@@ -39,12 +41,18 @@ public class GridCell : MonoBehaviour
 
     public void ResetCell()
     {
+        StartCoroutine(waitAndResetCell(0.2f));
+    }
+
+    private IEnumerator waitAndResetCell(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
         isFull = false;
 
         // Tween Anims
         xSprite.transform.DOKill();
-
-        xSprite.transform.DOScale(0, 0.2f).SetEase(Ease.InBack).OnComplete(() => 
+        xSprite.transform.DOScale(0, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
         {
             xSprite.gameObject.SetActive(false);
         });

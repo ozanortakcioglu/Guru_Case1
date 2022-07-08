@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 4542078192285860748}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.5, y: 0, z: 0.5}
-  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
+  m_LocalScale: {x: 0.185, y: 0.185, z: 0.185}
   m_Children:
   - {fileID: 4542078192251775276}
   m_Father: {fileID: 4542078193916400773}
@@ -154,7 +154,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b2c965602ae54475abee4252233430b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 663b93017f2d64a5f9096147836f3cc9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -209,6 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd155fd9f8d50249b7b72c95c07348e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFull: 0
   cellSprite: {fileID: 4542078192285860750}
   xSprite: {fileID: 4542078192251775277}
+  isFull: 0
