@@ -43,18 +43,14 @@ public class UIManager : MonoBehaviour
                     onRebuildButtonClick(50);
                 else
                     onRebuildButtonClick(size);
-            }
-            else
-            {
-                onRebuildButtonClick(5);
-            }
 
-            gridSizeInputField.text = "";
-            score = 0;
-            scoreText.text = "Score: " + score;
+                gridSizeInputField.text = "";
+                score = 0;
+                scoreText.text = "Score: " + score;
 
-            Taptic.Light();
-            SoundManager.Instance.PlaySound(SoundTrigger.Click);
+                Taptic.Light();
+                SoundManager.Instance.PlaySound(SoundTrigger.Click);
+            }
         });
     }
 
