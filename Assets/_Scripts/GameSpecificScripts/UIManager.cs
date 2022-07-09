@@ -39,17 +39,20 @@ public class UIManager : MonoBehaviour
         {
             if (int.TryParse(gridSizeInputField.text, out int size))
             {
-                if(size > 50)
-                    onRebuildButtonClick(50);
-                else
-                    onRebuildButtonClick(size);
+                if(size > 1)
+                {
+                    if (size > 50)
+                        onRebuildButtonClick(50);
+                    else
+                        onRebuildButtonClick(size);
 
-                gridSizeInputField.text = "";
-                score = 0;
-                scoreText.text = "Score: " + score;
+                    gridSizeInputField.text = "";
+                    score = 0;
+                    scoreText.text = "Score: " + score;
 
-                Taptic.Light();
-                SoundManager.Instance.PlaySound(SoundTrigger.Click);
+                    Taptic.Light();
+                    SoundManager.Instance.PlaySound(SoundTrigger.Click);
+                }
             }
         });
     }
