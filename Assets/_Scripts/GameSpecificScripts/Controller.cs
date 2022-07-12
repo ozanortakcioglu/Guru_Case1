@@ -29,8 +29,6 @@ public class Controller : MonoBehaviour
                 var gridPos = gridManager.GetGridPosFromWorld(worldPos);
                 if (gridManager.isOnTheGrid(gridPos))
                 {
-                    Taptic.Light();
-                    SoundManager.Instance.PlaySound(SoundTrigger.Click);
                     gridManager.ActivateGridCell(gridPos);
                 }
                 else

@@ -10,25 +10,27 @@ public class GridCell : MonoBehaviour
 
     [HideInInspector]
     public bool isFull;
+    private bool isTransitioning = false;
 
     private int posX;
     private int posY;
     private Vector3 initXScale;
-    private Color initXColor;
 
     private void Start()
     {
-        initXColor = xSprite.color;
         initXScale = xSprite.transform.localScale;
     }
 
     public void FillCell()
     {
-        if (isFull)
+        if (isFull || isTransitioning)
             return;
+
+        Taptic.Light();
+        SoundManager.Instance.PlaySound(SoundTrigger.Click);
+
         isFull = true;
 
-        // Tween Anims
         xSprite.transform.DOKill();
 
         xSprite.transform.localScale = Vector3.zero;
@@ -44,16 +46,17 @@ public class GridCell : MonoBehaviour
 
     private IEnumerator waitAndResetCell(float delay)
     {
-        yield return new WaitForSecondsRealtime(delay);
-
         isFull = false;
+        isTransitioning = true;
+
+        yield return new WaitForSecondsRealtime(delay);
 
         // Tween Anims
         xSprite.transform.DOKill();
         xSprite.transform.DOScale(0, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
         {
-
             xSprite.gameObject.SetActive(false);
+            isTransitioning = false;
         });
     }
 

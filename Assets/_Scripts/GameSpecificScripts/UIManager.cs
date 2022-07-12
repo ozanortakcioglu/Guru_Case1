@@ -46,7 +46,6 @@ public class UIManager : MonoBehaviour
                     else
                         onRebuildButtonClick(size);
 
-                    gridSizeInputField.text = "";
                     score = 0;
                     scoreText.text = "Score: " + score;
 
@@ -54,6 +53,8 @@ public class UIManager : MonoBehaviour
                     SoundManager.Instance.PlaySound(SoundTrigger.Click);
                 }
             }
+            gridSizeInputField.text = "";
+
         });
     }
 
